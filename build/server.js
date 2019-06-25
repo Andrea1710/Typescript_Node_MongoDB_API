@@ -11,6 +11,7 @@ const compression_1 = __importDefault(require("compression"));
 const cors_1 = __importDefault(require("cors"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const postRoutes_1 = __importDefault(require("./routes/postRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 class Server {
     constructor() {
         this.config = () => {
@@ -37,6 +38,7 @@ class Server {
         this.routes = () => {
             this.app.use(indexRoutes_1.default);
             this.app.use("/api/posts", postRoutes_1.default);
+            this.app.use("/api/users", userRoutes_1.default);
         };
         this.start = () => {
             this.app.listen(this.app.get("port"), () => console.log("Server listening on port", this.app.get("port")));

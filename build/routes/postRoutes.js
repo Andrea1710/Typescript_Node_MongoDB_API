@@ -12,34 +12,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const Posts_1 = __importDefault(require("../models/Posts"));
+const Post_1 = __importDefault(require("../models/Post"));
 class PostRoutes {
     constructor() {
         this.getPosts = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const posts = yield Posts_1.default.find();
+            const posts = yield Post_1.default.find();
             res.json(posts);
         });
         this.getPost = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { url } = req.params;
-            const post = yield Posts_1.default.findOne({ url: url });
+            const post = yield Post_1.default.findOne({ url: url });
             res.json(post);
         });
         this.createPost = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { title, url, content, image } = req.body;
-            const newPost = new Posts_1.default({ title, url, content, image });
+            const newPost = new Post_1.default({ title, url, content, image });
             yield newPost.save();
             res.json({ data: newPost });
         });
         this.updatePost = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { url } = req.params;
-            const updatedPost = yield Posts_1.default.findOneAndUpdate({ url: url }, req.body, {
+            const updatedPost = yield Post_1.default.findOneAndUpdate({ url: url }, req.body, {
                 new: true
             });
             res.json(updatedPost);
         });
         this.deletePost = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { url } = req.params;
-            yield Posts_1.default.findOneAndDelete({ url: url });
+            yield Post_1.default.findOneAndDelete({ url: url });
             res.json({ message: "Post deleted successfully" });
         });
         this.routes = () => {

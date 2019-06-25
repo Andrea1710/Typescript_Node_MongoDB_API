@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-import Post from "../models/Posts";
+import Post from "../models/Post";
 
 class PostRoutes {
   router: Router;
