@@ -21,7 +21,7 @@ class UserRoutes {
         });
         this.getUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { username } = req.params;
-            const user = yield User_1.default.findOne({ username: username });
+            const user = yield User_1.default.findOne({ username: username }).populate("posts");
             res.json(user);
         });
         this.createUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
