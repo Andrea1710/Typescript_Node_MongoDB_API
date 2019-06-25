@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 
+import Post from "../models/Posts";
+
 class PostRoutes {
   router: Router;
 
@@ -8,20 +10,42 @@ class PostRoutes {
     this.routes();
   }
 
-  getPosts = (req: Request, res: Response) => {};
+  public getPosts = async (req: Request, res: Response): Promise<void> => {
+    const posts = await Post.find();
+    res.json(posts);
+  };
 
-  getPost = () => {};
+  public getPost = async (req: Request, res: Response): Promise<void> => {
+    const { url } = req.params;
+    const post = await Post.findOne({ url: url });
+    res.json(post);
+  };
 
-  createPost = () => {};
+  public createPost = async (req: Request, res: Response): Promise<void> => {
+    const { title, url, content, image } = req.body;
+    const newPost = new Post({ title, url, content, image });
+    await newPost.save();
+    res.json({ data: newPost });
+  };
 
-  updatePost = () => {};
+  public updatePost = async (req: Request, res: Response): Promise<void> => {
+    const { url } = req.params;
+    const updatedPost = await Post.findOneAndUpdate({ url: url }, req.body, {
+      new: true
+    });
+    res.json(updatedPost);
+  };
 
-  deletePost = () => {};
+  public deletePost = async (req: Request, res: Response): Promise<void> => {
+    const { url } = req.params;
+    await Post.findOneAndDelete({ url: url });
+    res.json({ message: "Post deleted successfully" });
+  };
 
-  routes = () => {
+  public routes = () => {
     this.router.get("/", this.getPosts);
     this.router.get("/:url", this.getPost);
-    this.router.post("/:url", this.createPost);
+    this.router.post("/", this.createPost);
     this.router.put("/:url", this.updatePost);
     this.router.delete("/:url", this.deletePost);
   };
